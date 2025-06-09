@@ -1,56 +1,117 @@
-<!DOCTYPE html>
+
+index_html = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vota el Pueblo</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      color: #222;
-      margin: 40px auto;
-      max-width: 800px;
-      padding: 20px;
-      background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    h1 {
-      color: #aa0000;
-      text-align: center;
-    }
-    p {
-      line-height: 1.6;
-    }
-    .footer {
-      text-align: center;
-      color: #888;
-      font-size: 0.9em;
-      margin-top: 40px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Georgia','Times New Roman', serif; background: #fafafa; color: #2c3e50; line-height:1.6; }
+    /* Header */
+    .header { background: linear-gradient(135deg,#34495e,#2c3e50); color: #fff; text-align:center; padding:2rem 0; }
+    .site-title { font-size:2.5rem; margin-bottom:0.5rem; }
+    .site-subtitle { font-size:1.1rem; font-style:italic; opacity:0.9; }
+    /* Nav */
+    .nav { background: rgba(255,255,255,0.9); position:sticky; top:0; padding:0.5rem 0; }
+    .nav-list { list-style:none; display:flex; justify-content:center; gap:2rem; }
+    .nav-item a { text-decoration:none; color:#2c3e50; padding:0.5rem; border-radius:4px; transition:0.3s; }
+    .nav-item a:hover { background:rgba(52,152,219,0.1); color:#3498db; }
+    /* Container */
+    .container { max-width:1000px; margin:2rem auto; padding:0 1rem; }
+    .section-title { font-size:2rem; text-align:center; margin-bottom:1rem; position:relative; }
+    .section-title::after { content:''; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:60px; height:3px; background:linear-gradient(45deg,#3498db,#2980b9); }
+    /* News Grid */
+    .news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
+    .news-item { background:#fff; border-radius:8px; padding:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.05); transition:0.3s; }
+    .news-item:hover { transform:translateY(-5px); }
+    .news-date { color:#7f8c8d; font-size:0.9rem; margin-bottom:0.5rem; display:block; }
+    .news-title { font-size:1.3rem; margin-bottom:0.8rem; }
+    .news-excerpt { color:#555; margin-bottom:1rem; }
+    .news-media { margin:1rem 0; }
+    .news-media img, .news-media video, .news-media iframe { width:100%; border-radius:4px; }
+    /* Docs & Refs */
+    .doc-card, .ref-card { background:#fff; border-radius:8px; padding:1rem; margin-bottom:1rem; }
+    .doc-card h2, .ref-card h2 { font-size:1.2rem; margin-bottom:0.5rem; }
+    /* Contact */
+    .footer, #contacto { background:linear-gradient(135deg,#2c3e50,#34495e); color:#fff; text-align:center; padding:2rem; }
+    #contacto a { color:#fff; text-decoration:underline; }
   </style>
 </head>
 <body>
-
-<h1>Vota el Pueblo</h1>
-
-<p>
-Este espacio digital nace en el sudoeste bonaerense con el propósito de organizar, difundir y vincular información política relevante para el presente. 
-Aquí se sistematizan aportes ciudadanos, análisis coyunturales, herramientas de seguimiento y documentación estratégica.
-</p>
-
-<p>
-Buscamos fomentar una conversación crítica desde el territorio, con independencia de estructuras partidarias formales. 
-Nos mueve la convicción de que el pueblo siempre encuentra caminos para expresar sus decisiones.
-</p>
-
-<p>
-Este sitio está en construcción y se actualizará con materiales, mapas, cruces de datos y señales útiles para pensar y actuar colectivamente.
-</p>
-
-<div class="footer">
-Sitio en construcción – Junio 2025
-</div>
-
+  <header class="header">
+    <div class="site-title">Vota el Pueblo</div>
+    <div class="site-subtitle">Portal de información política y ciudadana</div>
+  </header>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item"><a href="#inicio">Inicio</a></li>
+      <li class="nav-item"><a href="#documentos">Documentos</a></li>
+      <li class="nav-item"><a href="#referencias">Referencias</a></li>
+      <li class="nav-item"><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <section id="inicio">
+      <h2 class="section-title">Actualidad Política</h2>
+      <div id="newsGrid" class="news-grid"></div>
+    </section>
+    <section id="documentos">
+      <h2 class="section-title">Documentos</h2>
+      <div id="docsList"></div>
+    </section>
+    <section id="referencias">
+      <h2 class="section-title">Referencias</h2>
+      <div id="refList"></div>
+    </section>
+  </div>
+  <section id="contacto">
+    <div id="contacto">
+      <h2 class="section-title">Contacto</h2>
+      <p>Para consultas y sugerencias: <a href="mailto:votaelpueblo@proton.me">votaelpueblo@proton.me</a></p>
+      <p>Somos un grupo de ciudadanos comprometidos con la palabra y la democracia en tiempos de fragilidad institucional.</p>
+    </div>
+  </section>
+  <footer class="footer">
+    <p>Sitio en construcción • Junio 2025</p>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const entries = JSON.parse(localStorage.getItem('vpEntries') || '[]');
+      entries.forEach(e => {
+        let container;
+        if (e.sec === 'noticias') container = document.getElementById('newsGrid');
+        if (e.sec === 'documentos') container = document.getElementById('docsList');
+        if (e.sec === 'referencias') container = document.getElementById('refList');
+        if (!container) return;
+        const div = document.createElement('div');
+        div.className = e.sec === 'noticias' ? 'news-item' : (e.sec === 'documentos' ? 'doc-card' : 'ref-card');
+        let html = '';
+        if (e.sec === 'noticias') {
+          html += `<span class="news-date">${e.date}</span>
+                   <h3 class="news-title">${e.title}</h3>`;
+          if (e.excerpt) html += `<p class="news-excerpt"><strong>${e.excerpt}</strong></p>`;
+          if (e.media) {
+            if (e.media.includes('youtube.com') || e.media.includes('youtu.be')) {
+              html += `<div class="news-media"><iframe src="${e.media}" frameborder="0" allowfullscreen></iframe></div>`;
+            } else {
+              const ext = e.media.split('.').pop().toLowerCase();
+              if (['mp4','webm','ogg'].includes(ext)) {
+                html += `<div class="news-media"><video src="${e.media}" controls></video></div>`;
+              } else {
+                html += `<div class="news-media"><img src="${e.media}" alt="${e.title}"></div>`;
+              }
+            }
+          }
+          if (e.content) html += `<p>${e.content}</p><p><em>Firmado: Editorial Vota el Pueblo</em></p>`;
+        } else {
+          html += `<h2>${e.title}</h2><p><em>${e.date}</em></p>`;
+          if (e.content) html += `<p>${e.content}</p>`;
+        }
+        div.innerHTML = html;
+        container.appendChild(div);
+      });
+    });
+  </script>
 </body>
-</html>
+</html>"""
