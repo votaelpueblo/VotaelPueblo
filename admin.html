@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Vota el Pueblo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 20px auto; background: #fafafa; padding: 20px; color: #222; }
+    label { display: block; margin: 10px 0; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 4px; }
+    button { padding: 8px 16px; margin-top: 10px; cursor: pointer; }
+    .entry { border-bottom: 1px solid #ddd; padding: 6px 0; }
+    .entry button { float: right; }
+  </style>
+</head>
+<body>
+  <h2>Ingreso de Administrador</h2>
+  <label>Contraseña:<input type="password" id="pwd" placeholder="Contraseña" /></label>
+  <button onclick="login()">Entrar</button>
+
+  <div id="adminDiv" style="display:none;">
+    <h2>Editor de Entradas</h2>
+    <label>Subir archivo existente:
+      <input type="file" id="fileInput" accept=".json" onchange="loadFile(event)" />
+    </label>
+    <label>Sección:
+      <select id="sectionSelect">
+        <option value="noticias">Noticias</option>
+        <option value="documentos">Documentos</option>
+        <option value="referencias">Referencias</option>
+      </select>
+    </label>
+    <label>Fecha:<input type="date" id="dateInput" /></label>
+    <label>Título:<input type="text" id="titleInput" placeholder="Título" /></label>
+    <label>Resumen:<textarea id="excerptInput" rows="2" placeholder="Resumen breve"></textarea></label>
+    <label>Contenido:<textarea id="contentInput" rows="4" placeholder="Texto completo"></textarea></label>
+    <label>Media (URL img/video/YouTube):<input type="text" id="mediaInput" placeholder="https://..." /></label>
+    <button onclick="addEntry()">Agregar entrada</button>
+    <button onclick="downloadJSON()">📥 Descargar entradas.json</button>
+
+    <h2>Entradas actuales</h2>
+    <div id="entriesDiv"></div>
+  </div>
+
+  <script>
+    const PASSWORD = 'resistencia2025';
+    let entries = [];
+
+    function login() {
+      if (document.getElementById('pwd').value === PASSWORD) {
+        document.querySelector('button').style.display = 'none';
+        document.getElementById('adminDiv').style.display = 'block';
+        renderEntries();
+      } else {
+        alert('Contraseña incorrecta');
+      }
+    }
+
+    function addEntry() {
+      const sec = sectionSelect.value;
+      const date = dateInput.value;
+      const title = titleInput.value.trim();
+      if (!date || !title) {
+        alert('Fecha y título obligatorios');
+        return;
+      }
+      entries.unshift({
+        sec,
+        date,
+        title,
+        excerpt: excerptInput.value.trim(),
+        content: contentInput.value.trim(),
+        media: mediaInput.value.trim()
+      });
+      renderEntries();
+    }
+
+    function renderEntries() {
+      entriesDiv.innerHTML = '';
+      entries.forEach((e, i) => {
+        const el = document.createElement('div');
+        el.className = 'entry';
+        el.innerHTML = `<strong>[${e.sec}] ${e.date} – ${e.title}</strong>
+                        <button onclick="removeEntry(${i})">Eliminar</button>`;
+        entriesDiv.appendChild(el);
+      });
+    }
+
+    function removeEntry(i) {
+      if (confirm('Eliminar entrada?')) {
+        entries.splice(i, 1);
+        renderEntries();
+      }
+    }
+
+    function downloadJSON() {
+      const blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'entradas.json';
+      a.click();
+    }
+
+    function loadFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (Array.isArray(data)) {
+            entries = data;
+            renderEntries();
+            alert('Archivo cargado correctamente.');
+          } else {
+            alert('El archivo no contiene una lista válida.');
+          }
+        } catch (err) {
+          alert('Error al leer el archivo JSON.');
+        }
+      };
+      reader.readAsText(file);
+    }
+  </script>
+</body>
+</html>

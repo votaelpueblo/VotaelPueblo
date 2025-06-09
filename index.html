@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vota el Pueblo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Georgia','Times New Roman', serif; background: #fafafa; color: #2c3e50; line-height:1.6; }
+    .header { background: linear-gradient(135deg,#34495e,#2c3e50); color: #fff; text-align:center; padding:2rem 0; position:relative; }
+    .header-content { position: relative; z-index:1; max-width:1200px; margin:auto; }
+    .site-title { font-size:2.5rem; font-weight:bold; opacity:0; animation:fadeInUp 1s ease-out 0.3s forwards; }
+    .site-subtitle { font-size:1.1rem; font-style:italic; opacity:0; animation:fadeInUp 1s ease-out 0.6s forwards; }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    .nav { background:rgba(255,255,255,0.9); backdrop-filter:blur(10px); position:sticky; top:0; z-index:100; }
+    .nav-container { max-width:1200px; margin:auto; padding:0 2rem; }
+    .nav-list { display:flex; justify-content:center; gap:2rem; list-style:none; padding:1rem 0; }
+    .nav-item a { text-decoration:none; color:#2c3e50; font-weight:500; padding:0.5rem; border-radius:4px; transition:0.3s; }
+    .nav-item a:hover { background:rgba(52,152,219,0.1); color:#3498db; }
+    .container { max-width:1000px; margin:3rem auto; padding:0 2rem; }
+    .main-content { background:#fff; border-radius:8px; padding:2rem; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:2rem; }
+    .section-title { font-size:2rem; text-align:center; margin-bottom:1rem; position:relative; }
+    .section-title::after { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:60px; height:3px; background:linear-gradient(45deg,#3498db,#2980b9); border-radius:2px; }
+    .news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
+    .news-item { background:#fff; border-radius:8px; padding:1.5rem; box-shadow:0 5px 15px rgba(0,0,0,0.05); position:relative; transition:0.3s; }
+    .news-item:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+    .news-date { color:#7f8c8d; font-size:0.9rem; margin-bottom:0.5rem; display:block; }
+    .news-title { font-size:1.3rem; margin-bottom:0.8rem; color:#2c3e50; }
+    .news-excerpt { color:#555; margin-bottom:1rem; font-size:1rem; }
+    .doc-card, .ref-card { background:#fff; border-radius:8px; padding:1rem; margin-bottom:1rem; box-shadow:0 2px 10px rgba(0,0,0,0.03); }
+    .doc-card h2, .ref-card h2 { font-size:1.2rem; margin-bottom:0.5rem; }
+    .doc-card p, .ref-card p { font-size:0.95rem; color:#444; }
+    .footer { background: linear-gradient(135deg,#2c3e50,#34495e); color:#fff; text-align:center; padding:2rem; }
+    @media(max-width:600px){ .nav-list{flex-direction:column;} .section-title{font-size:1.5rem;} }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1 class="site-title">Vota el Pueblo</h1>
+      <p class="site-subtitle">Portal de información política y ciudadana</p>
+    </div>
+  </header>
+  <nav class="nav">
+    <div class="nav-container">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#inicio">Inicio</a></li>
+        <li class="nav-item"><a href="#documentos">Documentos</a></li>
+        <li class="nav-item"><a href="#referencias">Referencias</a></li>
+        <li class="nav-item"><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <main class="main-content" id="inicio">
+      <h2 class="section-title">Actualidad Política</h2>
+      <div id="newsGrid" class="news-grid"></div>
+    </main>
+    <section id="documentos">
+      <div class="main-content">
+        <h2 class="section-title">Documentos</h2>
+        <div id="docsList"></div>
+      </div>
+    </section>
+    <section id="referencias">
+      <div class="main-content">
+        <h2 class="section-title">Referencias</h2>
+        <div id="refList"></div>
+      </div>
+    </section>
+    <section id="contacto">
+      <div class="main-content">
+        <h2 class="section-title">Contacto</h2>
+        <p>Para consultas y sugerencias: <a href="mailto:votaelpueblo@proton.me">votaelpueblo@proton.me</a></p>
+        <p>Somos un grupo de ciudadanos comprometidos con la palabra y la democracia en tiempos de fragilidad institucional.</p>
+      </div>
+    </section>
+  </div>
+  <footer class="footer">
+    <p>Sitio en construcción • Junio 2025</p>
+  </footer>
+  <script>
+    fetch('entradas.json')
+      .then(res => res.json())
+      .then(entries => {
+        entries.forEach(e => {
+          let container = e.sec === 'noticias' ? document.getElementById('newsGrid')
+                        : e.sec === 'documentos' ? document.getElementById('docsList')
+                        : e.sec === 'referencias' ? document.getElementById('refList')
+                        : null;
+          if (!container) return;
+          const div = document.createElement('div');
+          div.className = e.sec === 'noticias' ? 'news-item' : (e.sec === 'documentos' ? 'doc-card' : 'ref-card');
+          div.innerHTML = `
+            <span class="${e.sec==='noticias'?'news-date':''}">${e.date}</span>
+            <h2>${e.title}</h2>
+            ${e.excerpt ? `<p class="news-excerpt"><strong>${e.excerpt}</strong></p>` : ''}
+            ${e.media && e.media.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? `<img src="${e.media}" alt="${e.title}" style="width:100%; border-radius:6px;">` : ''}
+            ${e.content ? `<p>${e.content}</p>` : ''}
+            ${e.sec==='noticias' ? '<p><em>Firmado: Editorial Vota el Pueblo</em></p>' : ''}
+          `;
+          container.appendChild(div);
+        });
+      }).catch(err => {
+        console.error("Error cargando entradas.json", err);
+        document.getElementById('newsGrid').innerHTML = "<p>No se pudieron cargar las noticias. Verificá la conexión.</p>";
+      });
+  </script>
+</body>
+</html>
