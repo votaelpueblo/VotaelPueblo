@@ -1,10 +1,36 @@
-[
-  {
-    "sec": "noticias",
-    "date": "2025-06-09",
-    "title": "Proscripción en curso",
-    "excerpt": "No es contra Cristina. Es contra el pueblo.",
-    "content": "La Corte prepara un fallo que busca impedir la participación de Cristina Fernández de Kirchner. Esta proscripción es una operación de Estado para disciplinar al campo popular.",
-    "media": "https://votaelpueblo.github.io/VotaElPueblo/img/proscripcion-cristina.jpg"
-  }
+import json
+from pathlib import Path
+
+# Crear el archivo entradas.json con una entrada de ejemplo
+entradas = [
+    {
+        "sec": "noticias",
+        "date": "2025-06-09",
+        "title": "Proscripción en curso",
+        "excerpt": "No es contra Cristina. Es contra el pueblo.",
+        "content": "La Corte prepara un fallo que busca impedir la participación de Cristina Fernández de Kirchner. Esta proscripción es una operación de Estado para disciplinar al campo popular.",
+        "media": "https://votaelpueblo.github.io/VotaElPueblo/img/proscripcion-cristina.jpg"
+    },
+    {
+        "sec": "documentos",
+        "date": "2025-06-01",
+        "title": "Documento fundacional",
+        "excerpt": "",
+        "content": "El Movimiento Vota el Pueblo se presenta como una herramienta democrática de reflexión y acción frente a la proscripción, la persecución y el vaciamiento institucional.",
+        "media": ""
+    },
+    {
+        "sec": "referencias",
+        "date": "2025-06-07",
+        "title": "Referencias clave sobre lawfare",
+        "excerpt": "",
+        "content": "Ver nota de Página12 y editorial de El Cohete a la Luna sobre la persecución judicial a CFK.",
+        "media": "https://www.pagina12.com.ar/"
+    }
 ]
+
+json_path = Path("/mnt/data/entradas.json")
+with open(json_path, "w", encoding="utf-8") as f:
+    json.dump(entradas, f, ensure_ascii=False, indent=2)
+
+json_path.name
