@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - Vota el Pueblo</title>
+</head>
+<body>
+  <h1>Agregar entrada</h1>
+  <form id="entryForm">
+    <label>Sección: <input name="sec" value="noticias" /></label><br/>
+    <label>Fecha: <input name="date" type="date" /></label><br/>
+    <label>Título: <input name="title" /></label><br/>
+    <label>Resumen: <input name="excerpt" /></label><br/>
+    <label>Contenido: <textarea name="content"></textarea></label><br/>
+    <label>Media (URL): <input name="media" /></label><br/>
+    <button type="submit">Agregar</button>
+  </form>
+
+  <button onclick="descargar()">Descargar JSON</button>
+  <pre id="jsonPreview"></pre>
+
+  <script>
+    const entradas = [];
+
+    document.getElementById("entryForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      entradas.unshift(data);
+      document.getElementById("jsonPreview").textContent = JSON.stringify(entradas, null, 2);
+      e.target.reset();
+    });
+
+    function descargar() {
+      const blob = new Blob([JSON.stringify(entradas, null, 2)], { type: 'application/json' });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "entradas.json";
+      a.click();
+    }
+  </script>
+</body>
+</html>
