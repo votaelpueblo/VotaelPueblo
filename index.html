@@ -4,22 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vota el Pueblo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #2c3e50;
+    }
+    h1 {
+      color: #34495e;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+    .loading {
+      color: #888;
+      font-style: italic;
+    }
+    .noticia {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
   <h1>Noticias</h1>
+  <div id="estado" class="loading">Cargando noticias...</div>
   <div id="noticias"></div>
 
   <script>
     fetch('entradas.json')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error("No se pudo cargar el archivo JSON");
+        return response.json();
+      })
       .then(data => {
         const cont = document.getElementById("noticias");
-        data.filter(e => e.sec === "noticias").forEach(e => {
-          const div = document.createElement("div");
-          div.innerHTML = `<h2>${e.title}</h2><p><em>${e.date}</em></p><p><strong>${e.excerpt}</strong></p><p>${e.content}</p>`;
-          if(e.media) div.innerHTML += \`<img src="\${e.media}" alt="\${e.title}" width="100%">\`;
-          cont.appendChild(div);
-        });
+        const estado = document.getElementById("estado");
+        estado.remove();
+
+        const noticias = data.filter(e => e.sec === "noticias");
+        if (noticias.length === 0) {
+          cont.innerHTML = '<p class="error">No hay noticias cargadas.</p>';
+        } else {
+          noticias.forEach(e => {
+            const div = document.createElement("div");
+            div.className = "noticia";
+            div.innerHTML = `<h2>${e.title}</h2><p><em>${e.date}</em></p><p><strong>${e.excerpt}</strong></p><p>${e.content}</p>`;
+            if (e.media) {
+              div.innerHTML += `<img src="${e.media}" alt="${e.title}">`;
+            }
+            cont.appendChild(div);
+          });
+        }
+      })
+      .catch(err => {
+        document.getElementById("estado").innerHTML = `<span class='error'>Error: ${err.message}</span>`;
       });
   </script>
 </body>
