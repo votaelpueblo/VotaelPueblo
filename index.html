@@ -400,31 +400,31 @@
   </main>
 
   <script>
-    // Simular datos para demostración (ya que no tenemos acceso al JSON)
+    // Noticias reales del documento
     const mockData = [
       {
         sec: "noticias",
-        title: "Nueva Reforma Electoral en Debate",
+        title: "La batalla que viene no es electoral: es por el derecho a elegir",
         date: "2025-06-08",
-        excerpt: "El Congreso analiza cambios significativos en el sistema electoral que podrían transformar las próximas elecciones.",
-        content: "La comisión de asuntos constitucionales presenta una propuesta integral que incluye modificaciones en el financiamiento de campañas, transparencia en donaciones y nuevos mecanismos de participación ciudadana. Los expertos consideran que estos cambios podrían fortalecer la democracia y reducir la influencia del dinero en política.",
-        media: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&h=400&fit=crop"
+        excerpt: "Mientras el gobierno nacional degrada la institucionalidad, la Corte Suprema avanza con una estrategia de proscripción. El escenario ya no se limita a las urnas: lo que está en juego es el derecho mismo a participar políticamente.",
+        content: "La Argentina atraviesa un momento crítico: la democracia formal continúa existiendo, pero sus condiciones materiales están siendo severamente afectadas. El intento de proscripción contra Cristina Fernández de Kirchner es la expresión más nítida de una nueva etapa del lawfare, en la que no se busca disputar poder, sino eliminar a quien representa un proyecto alternativo. No se trata solo de un ataque a una dirigente. Se está restringiendo el derecho de millones de ciudadanos a elegir libremente quién los represente. Esa es la verdadera dimensión del problema: se intenta vaciar de contenido a la voluntad popular, disciplinando no solo a la dirigencia política, sino también a la sociedad.",
+        media: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAgACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5/ooooA//2Q=="
       },
       {
         sec: "noticias", 
-        title: "Encuesta Nacional Revela Tendencias Políticas",
-        date: "2025-06-07",
-        excerpt: "Los últimos sondeos muestran cambios importantes en las preferencias electorales a nivel nacional.",
-        content: "Una amplia encuesta realizada en 24 provincias revela un panorama político dinámico, con variaciones significativas en la intención de voto. Los resultados reflejan las preocupaciones ciudadanas sobre economía, seguridad y políticas sociales, marcando tendencias que podrían definir el rumbo electoral.",
-        media: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop"
+        title: "Análisis: El estado actual del sistema judicial argentino",
+        date: "2025-06-04",
+        excerpt: "Un repaso por los principales desafíos que enfrenta la justicia argentina en el contexto actual, con especial atención a los procesos en curso y su impacto en la institucionalidad democrática.",
+        content: "El sistema judicial argentino enfrenta una crisis de legitimidad que no es nueva, pero que se profundiza con el uso político de causas penales. Lejos de ser un poder independiente, el Poder Judicial ha sido funcional a intereses económicos y mediáticos, resistiéndose históricamente a cualquier intento de democratización o reforma estructural. Los casos recientes —como el proceso irregular contra Cristina Fernández de Kirchner o el archivo de las causas de Lago Escondido— muestran un patrón: los jueces actúan con impunidad cuando se trata de proteger a los sectores concentrados, y con dureza selectiva cuando deben disciplinar a dirigentes populares.",
+        media: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAgACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5/ooooA//2Q=="
       },
       {
         sec: "noticias",
-        title: "Participación Ciudadana en Aumento",
-        date: "2025-06-06", 
-        excerpt: "Las organizaciones civiles reportan un incremento notable en el interés político de los jóvenes.",
-        content: "Los movimientos estudiantiles y organizaciones juveniles han mostrado una participación activa en debates públicos y foros políticos. Esta tendencia refleja un despertar cívico que podría impactar significativamente en los próximos procesos electorales, especialmente entre votantes de 18 a 35 años.",
-        media: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&h=400&fit=crop"
+        title: "Derechos políticos y participación ciudadana en democracia",
+        date: "2025-06-03", 
+        excerpt: "La importancia de preservar los derechos políticos fundamentales en una democracia consolidada. Reflexiones sobre la participación electoral, el derecho al voto y la representación política como pilares básicos del sistema republicano y federal argentino.",
+        content: "En el marco de un año político convulsionado, resulta indispensable recuperar el sentido profundo del voto: no como acto administrativo, sino como ejercicio de soberanía. Cuando se restringe o condiciona el derecho a elegir y ser elegido, se vacía de contenido la democracia. En Argentina, este derecho ha sido conquistado y defendido por generaciones. Las mujeres, los trabajadores, los jóvenes: todos protagonizaron luchas históricas para ampliar la participación política. Por eso, cada intento de limitar candidaturas o instalar causas judiciales sin garantías debe ser leído como una regresión.",
+        media: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAgACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5/ooooA//2Q=="
       }
     ];
 
