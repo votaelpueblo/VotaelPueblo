@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrador - Vota el Pueblo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #f4f4f4;
+      color: #2c3e50;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #34495e;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.7rem 1.5rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    pre {
+      background: #eee;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    .warning {
+      background: #fff3cd;
+      color: #856404;
+      padding: 1rem;
+      border: 1px solid #ffeeba;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Panel de Administración</h1>
+  <div class="warning">
+    ⚠️ <strong>IMPORTANTE:</strong> Este panel no guarda automáticamente en el sitio web.<br>
+    Debés hacer clic en “📥 Descargar entradas.json” y luego subirlo manualmente a tu repositorio en GitHub.
+  </div>
+
+  <form id="entryForm">
+    <label>Sección:
+      <select name="sec">
+        <option value="noticias">Noticias</option>
+        <option value="documentos">Documentos</option>
+        <option value="referencias">Referencias</option>
+      </select>
+    </label>
+    <label>Fecha:
+      <input name="date" type="date" required />
+    </label>
+    <label>Título:
+      <input name="title" required />
+    </label>
+    <label>Resumen:
+      <input name="excerpt" />
+    </label>
+    <label>Contenido:
+      <textarea name="content" rows="4" required></textarea>
+    </label>
+    <label>Media (URL de imagen, video o YouTube):
+      <input name="media" />
+    </label>
+    <button type="submit">Agregar entrada</button>
+  </form>
+
+  <button onclick="descargar()">📥 Descargar entradas.json</button>
+  <pre id="jsonPreview">[]</pre>
+
+  <script>
+    const entradas = [];
+
+    document.getElementById("entryForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      entradas.unshift(data);
+      document.getElementById("jsonPreview").textContent = JSON.stringify(entradas, null, 2);
+      e.target.reset();
+    });
+
+    function descargar() {
+      const blob = new Blob([JSON.stringify(entradas, null, 2)], { type: 'application/json' });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "entradas.json";
+      a.click();
+    }
+  </script>
+</body>
+</html>
